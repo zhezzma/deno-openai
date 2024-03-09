@@ -1,3 +1,6 @@
+import { load } from "https://deno.land/std@0.219.0/dotenv/mod.ts";
+const env = await load();
+
 const DEFAULT_ROUTE = new URLPattern({ pathname: "/" });
 const CHATGPT_ROUTE = new URLPattern({ pathname: "/chatgpt" });
 const CLAUDE_ROUTE = new URLPattern({ pathname: "/claude" });
@@ -17,7 +20,10 @@ async function handler(req: Request): Promise<Response> {
 }
 
 async function handler_gpt(req: Request): Promise<Response> {
-  return new Response("Not found");
+  let OPENAI_KEY = Deno.env.get("OPENAI_API_KEY") || env["OPENAI_API_KEY"] ||
+    "";
+
+  return new Response(OPENAI_KEY);
 }
 
 async function handler_claude(req: Request): Promise<Response> {
