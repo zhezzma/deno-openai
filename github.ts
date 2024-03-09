@@ -13,7 +13,7 @@ const LOGIN_HEADERS = {
   "editor-plugin-version": "copilot.lua/1.11.4",
   "user-agent": "GithubCopilot/1.133.0",
 };
-const time_out = 30 * 1000;
+const time_out = 45 * 1000;
 
 export async function checkGithubAuth(deviceCode: string): Promise<string> {
   const url = "https://github.com/login/oauth/access_token";
