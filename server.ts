@@ -63,8 +63,13 @@ async function handler_gpt(req: Request): Promise<Response> {
     });
     if (params.stream) {
       return new Response(response.body, {
-        status: response.status,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "text/event-stream",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "*",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Credentials": "true",
+        },
       });
     }
     const result = await response.json();
