@@ -114,8 +114,11 @@ async function handler_claude(req: Request): Promise<Response> {
     });
   }
 
-  let ANTHROPIC_KEY = env.ANTHROPIC_API_KEY || "";
-  let ANTHROPIC_MODEL = env.ANTHROPIC_MODEL || "claude-3-opus-20240229";
+  let ANTHROPIC_KEY = Deno.env.get("ANTHROPIC_API_KEY") ||
+    env["ANTHROPIC_API_KEY"] || "";
+  let ANTHROPIC_MODEL = Deno.env.get("ANTHROPIC_MODEL") ||
+    env["ANTHROPIC_MODEL"] ||
+    "claude-3-opus-20240229";
   const MAX_TOKENS = 4096;
 
   // 打印请求参数到日志，方便排查
