@@ -60,7 +60,10 @@ async function handler_gpt(req: Request): Promise<Response> {
       body: JSON.stringify(params),
     });
     if (params.stream) {
-      // return response.body;
+      return new Response(response.body, {
+        status: response.status,
+        headers: { "Content-Type": "application/json" },
+      });
     }
     const result = await response.json();
     console.log(result);
