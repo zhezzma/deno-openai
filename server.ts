@@ -2,8 +2,10 @@ import { load } from "https://deno.land/std@0.219.0/dotenv/mod.ts";
 const env = await load();
 
 const DEFAULT_ROUTE = new URLPattern({ pathname: "/" });
-const CHATGPT_ROUTE = new URLPattern({ pathname: "/chatgpt" });
-const CLAUDE_ROUTE = new URLPattern({ pathname: "/claude" });
+const CHATGPT_ROUTE = new URLPattern({
+  pathname: "/chatgpt/:optional*",
+});
+const CLAUDE_ROUTE = new URLPattern({ pathname: "/claude/:optional*" });
 async function handler(req: Request): Promise<Response> {
   if (CHATGPT_ROUTE.exec(req.url)) {
     return await handler_gpt(req);
@@ -21,7 +23,7 @@ async function handler(req: Request): Promise<Response> {
 
 async function handler_gpt(req: Request): Promise<Response> {
   if (req.method === "GET") {
-    return new Response("Not Found", { status: 404 });
+    return new Response("Not GET GPT", { status: 404 });
   }
   if (req.method === "OPTIONS") {
     return new Response(null, {
