@@ -13,6 +13,7 @@ const LOGIN_HEADERS = {
   "editor-plugin-version": "copilot.lua/1.11.4",
   "user-agent": "GithubCopilot/1.133.0",
 };
+const time_out = 30 * 1000;
 
 export async function checkGithubAuth(deviceCode: string): Promise<string> {
   const url = "https://github.com/login/oauth/access_token";
@@ -101,15 +102,23 @@ export async function github(req: Request): Promise<Response> {
         new TextEncoder().encode("<p>fetch access token... </p>"),
       );
       let ghToken = await checkGithubAuth(authReq["device_code"]);
+      let access_token_count = 0;
+      const interval = 1000 * authReq["interval"];
       while (!ghToken) {
-        await new Promise((resolve) =>
-          setTimeout(resolve, 1000 * authReq["interval"])
-        );
+        await new Promise((resolve) => setTimeout(resolve, interval));
         ghToken = await checkGithubAuth(authReq["device_code"]);
+        access_token_count += 1;
+        if (access_token_count * interval > time_out) {
+          break;
+        }
       }
-      controller.enqueue(
-        new TextEncoder().encode(`<p>token: <code>${ghToken}</code></p>`),
-      );
+      if (!ghToken) {
+        controller.enqueue(new TextEncoder().encode("<p>fetch timeout</p>"));
+      } else {
+        controller.enqueue(
+          new TextEncoder().encode(`<p>token: <code>${ghToken}</code></p>`),
+        );
+      }
       // 标记数据结束
       controller.close();
     },
