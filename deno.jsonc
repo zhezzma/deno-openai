@@ -1,0 +1,12 @@
+//https://docs.deno.com/runtime/manual/getting_started/configuration_file
+{
+  "imports": {
+    // The dollar sign in front of "std" isn't special - it's an optional
+    // convention to show that $std is an alias set up in an import map
+    "$std/": "https://deno.land/std@0.219.0/"
+    //"chalk": "npm:chalk@^5.3.0"
+  },
+  "tasks": {
+    "dev": "deno run  -A --watch server.ts"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "deno",
+      "command": "task",
+      "args": ["dev"],
+      "problemMatcher": ["$deno"],
+      "label": "deno: dev"
+    },
+    {
+      "type": "deno",
+      "command": "run",
+      "args": ["-A", "hello.ts"],
+      "problemMatcher": ["$deno"],
+      "label": "deno: run"
+    },
+    {
+      "type": "deno",
+      "command": "test",
+      "args": ["-A", "tests/person_test.ts"],
+      "problemMatcher": ["$deno"],
+      "label": "deno: test_person"
+    }
+  ]
+}
